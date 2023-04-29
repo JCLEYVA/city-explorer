@@ -1,73 +1,17 @@
-import {Component} from "react";
-import axios from "axios";
-import { Button } from "react-bootstrap";
-import { ListGroup } from "react-bootstrap";
+import React from 'react'
+import { ListGroup } from 'react-bootstrap'
 
 
-class Weather extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            error : false,
-            forecastData : []
-        };
-    }
-
-
-
-getApiData = async(e)=>{
-    e.preventDefault();
-
-    try{
-        let newUrl = `http://localhost:3001/weather?lat=47.60621&lon=-122.33207&city=Seattle`;
-        let newForecastData = await axios.get(newUrl);
-        console.log(Array.from(newForecastData.data));
-        this.setState({
-            forecastData: newForecastData.data,
-            error : true
-        })
-    }catch(error){
-        console.log(error.message)
+export default class Weather extends React.Component {
+    render() {
+        return (
+            <ListGroup className='mb-1 wl'>
+                <ListGroup.Item variant="dark">Current Weather</ListGroup.Item>
+                <ListGroup.Item variant="warning">Description: {this.props.description}</ListGroup.Item>
+                <ListGroup.Item variant="warning">Temperature: {this.props.temp}</ListGroup.Item>
+                <ListGroup.Item variant="warning">Wind Speed: {this.props.windSpeed}</ListGroup.Item>
+                <ListGroup.Item variant="warning">Humidity: {this.props.humidity}</ListGroup.Item>
+            </ListGroup>
+        )
     }
 }
-
-    render(){
-    return(
-        <>
-        {
-        <Button variant="primary" type="submit" onClick={this.getApiData}>
-        Get Weather Data
-        </Button>
-        }
-        {
-            this.state.error?
-            <ListGroup>
-            {this.state.forecastData.map((createForecastData) => {
-            const hasDate = createForecastData.hasOwnProperty('date');
-            const hasHighTemp = createForecastData.hasOwnProperty('hightemp');
-            const hasLowTemp = createForecastData.hasOwnProperty('lowtemp');
-            if (hasDate || hasHighTemp || hasLowTemp) {
-              return (
-                <ListGroup.Item key={createForecastData.date}>
-                  {hasDate && `Date: ${createForecastData.date}`}
-                  {hasHighTemp && ` High:${createForecastData.hightemp}`}
-                  {hasLowTemp && ` Low:${createForecastData.lowtemp}`}
-                </ListGroup.Item>
-              );
-            } else {
-              return null;
-            }
-          })}
-
-
-        </ListGroup>
-            :
-            <p>press the button</p>
-        
-        }
-        </>
-    )
-}
-}
-
-export default Weather;

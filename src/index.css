@@ -1,3 +1,6 @@
+/* fix css its messed up */
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,3 +14,95 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+body {
+  background-color: grey;
+  margin: 0;
+  padding: 0%;
+}
+
+ .App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+} */
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 12px;
+  background-color: #ededed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  font-size: 60px!important;
+  color: white;
+  padding: 0%;
+  margin: 0%;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+h2 {
+  font-size: 50px!important;
+  color: white;
+  padding: 0%;
+  margin: 0%;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+* {
+  color: white;
+  text-align: center;
+}
+
+body {
+  background-color: #162E25;
+}
+
+.card {
+  background-color: #1E232E;
+}
+
+.button {
+  border-radius: 0px; 
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+  color: #000000;
+}
+
+input[type="text"], textarea {
+  background-color: #1212ed;
+}
+
+input[type="text"]:focus {
+  border: 3px solid #060404;
+}
+
+
+
+footer{
+  text-align: right;
+} 
