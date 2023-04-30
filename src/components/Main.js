@@ -1,165 +1,119 @@
-import React from "react";
-import Form from 'react-bootstrap/Form';
-import Button  from "react-bootstrap/Button";
-import Card  from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
-import axios from "axios";
-import { Container } from "react-bootstrap";
+import React from 'react';
+import axios from 'axios';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button'
+import 'bootstrap/dist/css/bootstrap.min.css';
+// import Weather from './weather'
+// import '.App.css'
 
 class Main extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            city: "",
-            cityData: [],
-            error: false,
-            errorMsg: "",
-            simpleCityName:"",
-            imageUrl:""
-            
-        };
+  constructor(props) {
+    super(props);
+    this.state = {
+      city: '',
+      cityData: [],
+      map: '',
+      error: false,
+      errorMsg: '',
+      forecast: [],
+      // showWeather: false,
+    }
+  }
+
+  handleCityInput = (ev) => {
+    this.setState({
+      city: ev.target.value
+    })
+  }
+
+
+  getCityData = async (ev) => {
+    ev.preventDefault();
+    try {
+      let url = `https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_LOCATION_IQ_API_KEY}&q=${this.state.city}&format=json`
+
+      let cityData = await axios.get(url)
+      
+      console.log(cityData.data)
+
+      let mapUrl = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_IQ_API_KEY}&center=${cityData.data[0].lat},${cityData.data[0].lon}&zoom=14`
+
+      let letResult = await axios.get(mapUrl)
+      // console.log('this is the', letResults.config.url)
+      // this.setState({ map: letResults.config.url })
+      this.setState({ map: mapUrl })
+      console.log(cityData.data[0])
+      this.setState({
+        cityData: cityData.data[0],
+        error: false
+      })
+  this.getWeather()
+    } catch (error) {
+      this.setState({
+        error: true,
+        errorMsg: error.message,
+        showWeather: false,
+      })
     }
 
-    handleCityInput = (e) => {
-        e.preventDefault();
-        this.setState({
-            city: e.target.value,
-        });
-        // console.log(this.city);
-        
-    };
+  }
 
-    getCityData = async (e) => {
-        // console.log("made it here");
-        e.preventDefault();
-        try {
-            let url = `https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_LOCATION_IQ_API_KEY}&q=${this.state.city}&format=json`;
+  getWeather = async () => {
+    // e.preventDefault();
+    // let cityName = e.target.value
+    // console.log('get weather')
+    try {
+  
+    let url = `${process.env.REACT_APP_SERVER}/weather?searchQuery=${this.state.city}`
 
-            // let newUrl = `http://localhost:3001/weather?lat=47.60621&lon=-122.33207&city=Seattle`
+    let res = await axios.get(url)
+    console.log(res.data)
+    console.log('HERE')
+    this.setState({
+      forecast: res.data
+    
+    })
+    } catch(error){
+      console.error(error.message)
+      console.error(error.captureStackTrace())
+      // TODO: set state with the error boolean and error message
+      // this.setState({
+      // })
+    }
+  }
 
+  render() {
+    return (
+      <>
+        <h2>City Data</h2>
+        <form onSubmit={this.getCityData}>
+          <label> Enter in a City name:
+            <input type="text" onInput={this.handleCityInput} />
+          </label>
+          <Button type="submit">Explore!</Button>
+        </form>
 
-            let cityData = await axios.get(url);
-            console.log(cityData.data);
-            let returnedCity= cityData.data[0].display_name.split(",")[0];
-
-            let lattitudeForCity = cityData.data[0].lat;
-            let cityLongitude = cityData.data[0].lon;
-            
-            let tempImageUrl = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_IQ_API_KEY}&center=${lattitudeForCity},${cityLongitude}&zoom=12&size=500x500`;
-            // console.log(tempImageUrl);
-            // let newImgURL = `https://maps.locationiq.com/v3/staticmap?key={process/env.REACT_APP_LOCATION_IQ_API_KEY}=47.6062,122.3321&zoom=13`;
-
-            let imageDataResponce = await axios.get(tempImageUrl);
-            console.log(imageDataResponce.config.url);
-
-
-            this.setState({
-                cityData: cityData.data[0],
-                error: false,
-                simpleCityName: returnedCity, 
-                imageUrl: imageDataResponce.config.url
-            })
-        } catch (error) {
-            //console.log("error retrieving info");
-            this.setState({
-                error: true,
-                errorMsg: error.message
-            })
+        {
+          this.state.error
+            ? <p>{this.state.errorMsg}</p>
+            : <p>{this.state.cityData.display_name}</p>
         }
-    };
 
-    render() {
-        return (
-            <>
-            
-            <Container >
-                <Form onSubmit={this.getCityData} >
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                        {/* <Form.Label>Enter City</Form.Label> */}
-                        <Form.Control
-                            // type="string"
-                            type="text"
-                            placeholder="Enter City Name"
-                            onInput={this.handleCityInput}
-                            style={{ width: "32rem"}}
-                        />
-                    </Form.Group>
-                
-                    <Button variant="primary" type="submit">
-                        Explore
-                    </Button>
-                </Form>
-            </Container>
-                
-                {
-                    this.state.error ?
-                     <Card style={{ width: '18rem' }}>
-                            <ListGroup variant="flush">
-                            <ListGroup.Item>{this.state.errorMsg}</ListGroup.Item>
-                            </ListGroup>
-                    </Card>
-                    :
-                        <Container>
-                        <Card style={{ width: '18rem' }}>
-                        <Card.Img variant="top"  src={this.state.imageUrl}/>
-                            <Card.Body>
-                                <Card.Title>{this.state.cityData.display_name}</Card.Title>
-                                <Card.Text>
-                                {`${this.state.simpleCityName} has a lattitude of: ${this.state.cityData.lat} and a longitude of ${this.state.cityData.lon} `}
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
-                        </Container> 
-                }
-            </>
-        );
-    }
+        {this.state.cityData || this.state.map?
+        <Card>
+          <Card.Text>
+            <ul>
+              <li>City: {this.state.cityData.display_name}</li>
+              <li>Longitude: {this.state.cityData.lon}</li>
+              <li>Latitude: {this.state.cityData.lat}</li>
+              <li>Map: <img src={this.state.map} alt="City Map" /> </li>
+            </ul>
+          </Card.Text>
+        </Card>
+        : null }
+      </>
+    )
+  }
 }
 
 export default Main;
-
-// import axios from 'axios';
-// import React from 'react';
-
-
-
-
-// class Map extends React.Component {
-
-// state = {
-//     mapImageURL: '',
-//   }
-  
-
-//   getMapImage = (location) => {
-//     const url = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${location}&zoom=14`;
-    
-//     axios.get(url)
-//       .then(response => {
-//         this.setState({ mapImageURL: response.config.url });
-//       })
-//       .catch(error => {
-//         console.log(error);
-//       });
-//   }
-
-//   handleExplore = (event) => {
-//     event.preventDefault();
-//     const location = `${this.state.searchQuery.lat},${this.state.searchQuery.lon}`;
-//     this.getMapImage(location);
-//   }
-  
-//   render() {
-//     return (
-//       <div>
-//         <form onSubmit={this.handleExplore}>
-//           <label htmlFor="searchQuery">Enter a location:</label>
-//           <input type="text" id="searchQuery" name="searchQuery" onChange={this.handleChange} />
-//           <button type="submit">Explore!</button>
-//         </form>
-//         {this.state.mapImageURL &&
-//           <img src={this.state.mapImageURL} alt="Map of the city" />
-//         }
-//       </div>
-//     );
-//   }
