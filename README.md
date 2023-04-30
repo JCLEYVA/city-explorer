@@ -1,8 +1,6 @@
 # City-Explorer
 
 **Author**: Jeanette Leyva
-**Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
-
 ## Overview
 
 
@@ -27,7 +25,7 @@ Wed, Apr 19.2023 1800. Labs 6 + 7: https://thriving-basbousa-dd7a39.netlify.app/
 
 Wed, Apr 19. 2023 2100 Lab 8: 
 
-## Credit and Collaborations
+
 
 Name of feature: lab 6
 
@@ -49,5 +47,22 @@ Finish time: 700 pm
 
 Actual time needed to complete: one day
 
+Name of feature:Lab 8 APIs
 
-## Resources 
+Estimate of time needed to complete: 3 hours
+
+Start time: 0800
+
+Finish time: 1200
+
+Actual time needed to complete: 4 hours
+
+Name of feature: Lab 9
+
+Estimate of time needed to complete: 2 hours
+
+Start time: 1300
+
+Finish time: 1500
+
+Actual time needed to complete: 2 hours
