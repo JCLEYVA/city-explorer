@@ -7,7 +7,7 @@ import Header from './components/Header'
 import Footer from './components/Footer';
 import Weather from './components/Weather';
 import Explorer from './components/Explorer.js';
-import SpecificForecast  from './components/SpecificForecast';
+import WeatherDay  from './components/SpecificForecast';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -35,7 +35,7 @@ class App extends React.Component {
           // windSpeed={this.state.weatherObj.windSpeed}
           // humidity={this.state.weatherObj.humidity}
         />
-        <SpecificForecast />
+        <WeatherDay />
         {/* <Main /> */}
         <Footer />
       </>

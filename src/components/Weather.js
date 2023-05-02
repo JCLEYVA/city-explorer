@@ -1,6 +1,6 @@
 import React from 'react'
 import { ListGroup } from 'react-bootstrap'
-
+// import './Weather.css'
 
 export default class Weather extends React.Component {
     render() {
@@ -15,3 +15,4 @@ export default class Weather extends React.Component {
         )
     }
 }
+

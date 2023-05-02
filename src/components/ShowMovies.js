@@ -1,6 +1,5 @@
 import React from 'react'
 import {Carousel, ListGroup} from 'react-bootstrap'
-// import './ShowMovies.css'
 
 export default class ShowMovies extends React.Component {
     constructor(props){

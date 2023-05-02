@@ -40,7 +40,7 @@ class Main extends React.Component {
 
       let letResult = await axios.get(mapUrl)
       // console.log('this is the', letResults.config.url)
-      // this.setState({ map: letResults.config.url })
+      this.setState({ map: letResult.config.url })
       this.setState({ map: mapUrl })
       console.log(cityData.data[0])
       this.setState({
@@ -85,7 +85,7 @@ class Main extends React.Component {
   render() {
     return (
       <>
-        <h2>City Data</h2>
+        {/* <h2>City Data</h2> */}
         <form onSubmit={this.getCityData}>
           <label> Enter in a City name:
             <input type="text" onInput={this.handleCityInput} />
